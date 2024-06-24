@@ -8,7 +8,6 @@ export function useGetTicker(){
     const [tickers,setTickers]=useState<Ticker[]>([])
     const [ticker,setTicker]=useState<Ticker>()
 
-    const WsManger=SignalingManger.getInstance()
 
 
     useEffect(()=>{
@@ -40,29 +39,3 @@ export function useGetTicker(){
 }
 
 
-/*import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const MyComponent = () => {
-    const [tickers, setTickers] = useState<Ticker[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await axios.get<Ticker[]>(`${process.env.BASE_URL}/tickers`);
-                const tickerData = response.data;
-                setTickers(tickerData);
-                console.log(tickerData);
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
-
-    return (
-        <div>
-            {/* Render your tickers or other content here */
-        
-
-    
-    

@@ -10,9 +10,7 @@ import { SignalingManger } from "@/app/utils/signalingManger";
 
 export default  function Page({ params }: { params: { market: string } }){
   const [currentTicker,setCurrentTicker]=useState<Ticker|null>(null)
-    const ticker=useGetTicker()
 
-   
 
 
     return <>

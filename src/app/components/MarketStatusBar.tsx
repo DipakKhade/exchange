@@ -2,23 +2,19 @@
 import { useGetTicker } from "@/lib/hooks/customHooks"
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import sol_logo from '../../../lib/icons_images/sol_usdc.png'
+import sol_logo from '../../lib/icons_images/sol_usdc.png'
 import { Ticker } from "@/app/utils/types";
 import { SignalingManger } from "@/app/utils/signalingManger";
-
+import { getTicker } from "../utils/getData";
 
 export default  function MarketStatusBar({market}:{market:string}){
-  const [currentTicker,setCurrentTicker]=useState<Ticker|null>(null)
-    const ticker=useGetTicker()
-
+  const [ticker,setTicker]=useState<Ticker|null>(null)
+   
+// console.log(ticker)
     useEffect(() => {
-      const ct = ticker.tickers.find(t => t.symbol === market);
-      if (ct) {
-        setCurrentTicker(ct);
-      }
+        getTicker(market).then(setTicker);
 
-
-      SignalingManger.getInstance().registerCallback("ticker",(data:Partial<Ticker>)=>setCurrentTicker(prevTicker=>({
+      SignalingManger.getInstance().registerCallback("ticker",(data:Partial<Ticker>)=>setTicker(prevTicker=>({
         firstPrice: data?.firstPrice ?? prevTicker?.firstPrice ?? '',
         high: data?.high ?? prevTicker?.high ?? '',
         lastPrice: data?.lastPrice ?? prevTicker?.lastPrice ?? '',
@@ -31,6 +27,8 @@ export default  function MarketStatusBar({market}:{market:string}){
         volume: data?.volume ?? prevTicker?.volume ?? '',
       })),market)
       SignalingManger.getInstance().sendMessage({"method":"SUBSCRIBE","params":[`ticker.${market}`]}	);
+
+    //   console.log('current ticker',ticker)
  
       return()=>{
         SignalingManger.getInstance().deRegisterCallback("ticker",market)
@@ -45,7 +43,7 @@ export default  function MarketStatusBar({market}:{market:string}){
 
 <main>
 {
-  currentTicker &&  <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4 border border-[#202127]">
+  ticker &&  <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4 border border-[#202127]">
   <div className="flex h-[60px] shrink-0 space-x-4">
     <button type="button" className="react-aria-Button" data-rac="">
       <div className="flex items-center justify-between flex-row cursor-pointer rounded-lg p-3 hover:opacity-80">
@@ -87,31 +85,31 @@ export default  function MarketStatusBar({market}:{market:string}){
                 src="/coins/usdc.png"
               /> */}
             </div>
-            <p className="font-medium text-baseTextHighEmphasis">{currentTicker.symbol.split('_')[0]}/{currentTicker.symbol.split('_')[1]}</p>
+            <p className="font-medium text-baseTextHighEmphasis">{ticker.symbol.split('_')[0]}/{ticker.symbol.split('_')[1]}</p>
           </div>
         </div>
       </div>
     </button>
     <div className="flex items-center flex-row space-x-8">
       <div className="flex flex-col h-full justify-center">
-        <p className="font-medium tabular-nums text-redText text-lg text-green-500">{currentTicker.firstPrice}</p>
-        <p className="font-medium text-baseTextHighEmphasis text-sm tabular-nums">${currentTicker.lastPrice}</p>
+        <p className="font-medium tabular-nums text-redText text-lg text-green-500">{ticker?.firstPrice}</p>
+        <p className="font-medium text-baseTextHighEmphasis text-sm tabular-nums">${ticker?.lastPrice}</p>
       </div>
       <div className="flex flex-col">
         <p className="font-medium text-xs leading-3 text-baseTextMedEmphasis">24H Change</p>
         <p className={`mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis text-redText 
             
-            ${ currentTicker.priceChange.startsWith('-') ? 'text-red-500' :'text-green-400'}
+            ${ Number(ticker.priceChange)<0 ? 'text-red-500' :'text-green-400'}
 
-            `}>{currentTicker.priceChange} {currentTicker.priceChangePercent}%</p>
+            `}>{ticker?.priceChange} {ticker?.priceChangePercent}%</p>
       </div>
       <div className="flex flex-col">
         <p className="font-medium text-xs leading-3 text-baseTextMedEmphasis">24H High</p>
-        <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{currentTicker.high}</p>
+        <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{ticker?.high}</p>
       </div>
       <div className="flex flex-col">
         <p className="font-medium text-xs leading-3 text-baseTextMedEmphasis">24H Low</p>
-        <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{currentTicker.low}</p>
+        <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{ticker?.low}</p>
       </div>
       <button
         type="button"
@@ -119,8 +117,8 @@ export default  function MarketStatusBar({market}:{market:string}){
         data-rac=""
       >
         <div className="flex flex-col">
-          <p className="font-medium text-xs leading-3 text-baseTextMedEmphasis">24H Volume ({currentTicker.symbol.split('_')[1]})</p>
-          <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{currentTicker.volume}</p>
+          <p className="font-medium text-xs leading-3 text-baseTextMedEmphasis">24H Volume ({ticker?.symbol.split('_')[1]})</p>
+          <p className="mt-1 text-sm font-medium tabular-nums leading-5 text-baseTextHighEmphasis">{ticker?.volume}</p>
         </div>
       </button>
     </div>

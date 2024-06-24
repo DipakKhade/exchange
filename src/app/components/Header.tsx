@@ -6,7 +6,7 @@ export default function Header(){
     const router=useRouter()
     const slugPath='/'+path.split('/')[1]
 
-    console.log(slugPath)
+    // console.log(slugPath)
  return <>
  
  <div className="flex h-14 w-full flex-col justify-center pl-[21px] pr-4">

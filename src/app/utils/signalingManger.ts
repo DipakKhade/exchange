@@ -29,7 +29,7 @@ this.init()
       }
       
       this.ws.onmessage=(event)=>{
-        console.log('ws is opned',event)
+        // console.log('ws is opned',event)
         const message=JSON.parse(event.data)
 const type=message.data.e;
 
