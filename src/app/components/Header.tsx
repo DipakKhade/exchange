@@ -4,7 +4,9 @@ import { usePathname , useRouter } from "next/navigation"
 export default function Header(){
     const path =usePathname()
     const router=useRouter()
-    console.log(path)
+    const slugPath='/'+path.split('/')[1]
+
+    console.log(slugPath)
  return <>
  
  <div className="flex h-14 w-full flex-col justify-center pl-[21px] pr-4">
@@ -14,7 +16,7 @@ export default function Header(){
 
              onClick={()=>router.push('/markets')}>Markets</li>
 
-            <li className={`ml-[20px] mr-[20px] flex flex-row items-center justify-center ${path.startsWith('/treads') ? 'text-white' : 'text-slate-500'} `} onClick={()=>router.push('/treads')}>Treads</li>
+            <li className={`ml-[20px] mr-[20px] flex flex-row items-center justify-center ${path.startsWith(slugPath) ? 'text-white' : 'text-slate-500'} `} onClick={()=>router.push('/trade')}>Treads</li>
 
             {/* <li className="ml-[20px] mr-[20px] flex flex-row items-center justify-center">More</li> */}
 
