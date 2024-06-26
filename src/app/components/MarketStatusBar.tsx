@@ -43,7 +43,7 @@ export default  function MarketStatusBar({market}:{market:string}){
 
 <main>
 {
-  ticker &&  <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4 border border-[#202127]">
+  ticker &&  <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4 border border-[#202127] w-[79vw]">
   <div className="flex h-[60px] shrink-0 space-x-4">
     <button type="button" className="react-aria-Button" data-rac="">
       <div className="flex items-center justify-between flex-row cursor-pointer rounded-lg p-3 hover:opacity-80">
