@@ -80,6 +80,8 @@ callback(newTicker);
 async registerCallback(type: string, callback: any, id: string) {
   this.callbacks[type] = this.callbacks[type] || [];
   this.callbacks[type].push({ callback, id });
+
+  console.log(this.callbacks)
 }
 
 async deRegisterCallback(type: string, id: string) {
@@ -98,3 +100,4 @@ async deRegisterCallback(type: string, id: string) {
 export const BASE_WS_URL = "wss://ws.backpack.exchange";
 
 
+// "{\"data\":{\"E\":1719243681485160,\"V\":\"4993244.5039\",\"c\":\"127.04\",\"e\":\"ticker\",\"h\":\"132.42\",\"l\":\"121.77\",\"n\":21733,\"o\":\"132.07\",\"s\":\"SOL_USDC\",\"v\":\"39439.73\"},\"stream\":\"ticker.SOL_USDC\"}"
