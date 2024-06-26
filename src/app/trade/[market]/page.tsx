@@ -4,6 +4,8 @@ import MarketStatusBar from "@/app/components/MarketStatusBar";
 import { Ticker } from "@/app/utils/types";
 import Chart from "@/app/components/chart";
 import { ChartHeaderBar } from "@/app/components/chart";
+import OrderBook,{ SymbolDepth } from "@/app/components/OrderBook";
+
 export default function Page({ params }: { params: { market: string } }) {
   const [currentTicker, setCurrentTicker] = useState<Ticker | null>(null);
 
@@ -16,7 +18,7 @@ export default function Page({ params }: { params: { market: string } }) {
 
         <div className="flex flex-row h-[620px]">
 
-          <div className="w-[210vw] border border-[#202127]">
+          <div className=" border border-[#202127]">
             <div>
 
 <ChartHeaderBar/>
@@ -24,8 +26,14 @@ export default function Page({ params }: { params: { market: string } }) {
             <Chart/>
 
           </div>
-          <div className="border border-[#202127]"></div>
-          <div className="border border-[#202127]"></div>
+            
+          <div className="border border-[#202127]">
+<OrderBook symbol="BLUR_USDC"/>
+
+          </div>
+          <div className="border border-[#202127]">
+            
+          </div>
 
         </div>
       </main>

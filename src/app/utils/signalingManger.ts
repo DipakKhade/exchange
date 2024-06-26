@@ -97,6 +97,7 @@ async deRegisterCallback(type: string, id: string) {
 
 }
 
+// export const BASE_WS_URL = "wss://ws.backpack.exchange";
 export const BASE_WS_URL = "wss://ws.backpack.exchange";
 
 

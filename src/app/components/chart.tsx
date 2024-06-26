@@ -57,7 +57,7 @@ export default function Chart() {
     }, []);
 
     return (
-        <div ref={container} style={{ width: '60%', height: '300px' }}>
+        <div ref={container} style={{ width: '100%', height: '300px' }}>
         </div>
     );
 }
