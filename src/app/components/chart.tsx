@@ -1,8 +1,11 @@
 'use client';
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect } from 'react';
+import { SignalingManger } from '../utils/signalingManger';
+
 export default function Chart() {
     const container = useRef<HTMLDivElement>(null);
+    // const getTickerData=SignalingManger.getInstance()
 
     useEffect(() => {
         if (container.current) {
@@ -80,3 +83,29 @@ export function ChartHeaderBar(){
         </div>
     </>
 }
+
+
+
+  // {
+                //     "firstPrice": 0.2473,
+                //     "high": 0.2529,
+                //     "lastPrice": 0.2529,
+                //     "low": 0.2473,
+                //     "priceChange": 0.0056,
+                //     "priceChangePercent": 0.022645,
+                //     "quoteVolume": 658.390612,
+                //     "symbol": "BLUR_USDC",
+                //     "trades": 4,
+                //     "volume": 2616.46
+                //     },
+
+// priceChange=firstPrice-lastPrice
+
+// high
+// low
+// open
+// close
+
+//         function get(high:string,low:string,firstPrice:string,){
+
+//         }

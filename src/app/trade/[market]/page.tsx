@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { market: string } }) {
           </div>
             
           <div className="border border-[#202127]">
-<OrderBook symbol="BLUR_USDC"/>
+<OrderBook symbol={params.market as string}/>
 
           </div>
          

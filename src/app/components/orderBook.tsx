@@ -1,7 +1,7 @@
 
 'use client';
-import axios from "axios"
 import { Depth } from "../utils/types"
+import { getDepth } from "../utils/getData";
 import { useEffect, useState } from "react";
 
 
@@ -51,36 +51,107 @@ export default function OrderBook({symbol}:{symbol:string}){
 
 
 
-async function getDepth(symbol:string):Promise<any>{
 
-   const res= await axios.get<Depth>(`https://exchange-proxy.100xdevs.com/api/v1/depth?symbol=${symbol}`)
-
-   return res.data
-
-}
 
 
 export function SymbolDepth({symbol}:{symbol:string}){
 const [depthData, setDepthData]=useState<Depth>()
+
     useEffect(function(){
 (async()=>{
     const data=await getDepth(symbol)
-        console.log(data)
+        // console.log(data)
 })();
     
 
     },[])
+
+    console.log(symbol)
   
     return<>
      <div>
             {/* Render depth data */}
-            <h3>Depth Data for {symbol}</h3>
+            {/* <h3>Depth Data for {symbol}</h3> */}
+            
+    <div className="items-center flex-row border-b-1 border-b-borderColor flex px-3 py-2 text-baseTextMedEmphasis"><p className="font-medium text-baseTextHighEmphasis w-[30%] text-xs">{`Price (${symbol.split('_')[1]})`}</p><p className="font-medium w-[30%] text-right text-xs text-baseTextMedEmphasis">{`Size ((${symbol.split('_')[0]}))`}</p><p className="font-medium w-[40%] text-right text-xs text-baseTextMedEmphasis">{`Total (${symbol.split('_')[0]})`}</p></div>
+            <BidTable  market={symbol as string}/>
+            <div>actual price</div>
+            <AskTable market={symbol as string}/>
         </div>
     </>
 
 }
 
 
+
+function AskTable({market}:{market:string}){
+    const [ask,setAsk]= useState<[string,string][]>()
+
+    useEffect(()=>{
+  (async()=>{
+let a=await getDepth(market)
+setAsk(a.asks.reverse())
+  })();
+    },[])
+
+
+    return <>
+    {
+        ask && ask.splice(ask.length-8,ask.length).map(function(a,index){
+            return<div key={index}>
+            <div className="flex items-center flex-row relative h-full w-full overflow-hidden px-3 hover:border-t hover:border-dashed hover:border-baseBorderFocus/50 cursor-pointer">
+            <div style={{ position: 'absolute', top: '1px', bottom: '1px', right: '0px', width: '7.1%', background: '#16362E', transition: 'width 0.4s ease-in-out 0s' }}></div>
+            <div style={{ position: 'absolute', top: '1px', bottom: '1px', right: '0px', width: '7.1%', background: '#16362E', transition: 'width 0.4s ease-in-out 0s' }}></div>
+            <p className="z-10 w-[30%] text-left text-xs font-normal tabular-nums text-green-600">{a[0]}</p>
+            <p className="z-10 w-[30%] text-right text-xs font-normal">{a[1]}</p>
+            <p className="z-10 w-[40%] text-right text-xs font-normal ">{a[1]}</p>
+          </div>
+          </div>
+            
+        })
+    }
+
+
+    </>
+
+
+}
+
+
+
+function BidTable({market}:{market:string}){
+    const [bids,setBids]= useState<[string,string][]>()
+
+    useEffect(()=>{
+  (async()=>{
+let a=await getDepth(market)
+setBids(a.bids)
+  })();
+    },[])
+
+
+    return <>
+   
+    {
+        bids && bids.splice(0,8).map(function(b,index){
+            return<div key={index}>
+            <div className="flex items-center flex-row relative h-full w-full overflow-hidden px-3 hover:border-t hover:border-dashed hover:border-baseBorderFocus/50 cursor-pointer">
+            <div style={{ position: 'absolute', top: '1px', bottom: '1px', right: '0px', width: '7.1%', background: '#7C3034', transition: 'width 0.4s ease-in-out 0s' }}></div>
+            <div style={{ position: 'absolute', top: '1px', bottom: '1px', right: '0px', width: '7.1%', background: '#7C3034', transition: 'width 0.4s ease-in-out 0s' }}></div>
+            <p className="z-10 w-[30%] text-left text-xs font-normal tabular-nums text-red-500">{b[0]}</p>
+            <p className="z-10 w-[30%] text-right text-xs font-normal tabular-nums ">{b[1]}</p>
+            <p className="z-10 w-[40%] text-right text-xs font-normal tabular-nums">{b[1]}</p>
+          </div>
+          </div>
+            
+        })
+    }
+
+
+    </>
+
+
+}
 
 
 
