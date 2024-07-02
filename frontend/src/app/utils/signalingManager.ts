@@ -1,8 +1,8 @@
-import { Ticker } from "./types";
+import { Depth, Ticker } from "./types";
 
-export class SignalingManger {
+export class SignalingManager {
   private ws: WebSocket;
-  private static instance: SignalingManger;
+  private static instance: SignalingManager;
   private buffreedMessages: any[] = [];
   private isInitilized: boolean = false;
   private callbacks: { [type: string]: any[] } = {};
@@ -45,16 +45,26 @@ export class SignalingManger {
             // console.log(newTicker);
             callback(newTicker);
           }
+
+          else if (type === "depth") {
+            const depth: Partial<Depth> = {
+              bids: message.data.bids,
+              asks: message.data.asks,
+              lastUpdateId: message.data.lastUpdateId,
+            };
+            callback(depth);
+          }
         });
+  
       }
     };
   }
 
   public static getInstance() {
-    if (!SignalingManger.instance) {
-      return (SignalingManger.instance = new SignalingManger());
+    if (!SignalingManager.instance) {
+      return (SignalingManager.instance = new SignalingManager());
     }
-    return SignalingManger.instance;
+    return SignalingManager.instance;
   }
 
   sendMessage(message: any) {
@@ -92,3 +102,15 @@ export class SignalingManger {
 export const BASE_WS_URL = "wss://ws.backpack.exchange";
 
 // "{\"data\":{\"E\":1719243681485160,\"V\":\"4993244.5039\",\"c\":\"127.04\",\"e\":\"ticker\",\"h\":\"132.42\",\"l\":\"121.77\",\"n\":21733,\"o\":\"132.07\",\"s\":\"SOL_USDC\",\"v\":\"39439.73\"},\"stream\":\"ticker.SOL_USDC\"}"
+
+
+
+
+
+// const callback:{[type]:string}={}
+
+// onRegisterCallback(){
+
+//   this.callback
+
+// }

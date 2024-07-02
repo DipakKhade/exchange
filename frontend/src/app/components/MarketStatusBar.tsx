@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import sol_logo from "../../lib/icons_images/sol_usdc.png";
 import { Ticker } from "@/app/utils/types";
-import { SignalingManger } from "@/app/utils/signalingManger";
+import { SignalingManager } from "../utils/signalingManager";
 import { getTicker } from "../utils/getData";
+
 
 export default function MarketStatusBar({ market }: { market: string }) {
   const [ticker, setTicker] = useState<Ticker | null>(null);
@@ -14,10 +15,12 @@ export default function MarketStatusBar({ market }: { market: string }) {
   useEffect(() => {
     getTicker(market).then(setTicker);
 
-    SignalingManger.getInstance().registerCallback(
+    SignalingManager.getInstance().registerCallback(
       "ticker",
       (data: Partial<Ticker>) =>
         setTicker((prevTicker) => ({
+
+          // optional chaining
           firstPrice: data?.firstPrice ?? prevTicker?.firstPrice ?? "",
           high: data?.high ?? prevTicker?.high ?? "",
           lastPrice: data?.lastPrice ?? prevTicker?.lastPrice ?? "",
@@ -32,7 +35,7 @@ export default function MarketStatusBar({ market }: { market: string }) {
         })),
       market,
     );
-    SignalingManger.getInstance().sendMessage({
+    SignalingManager.getInstance().sendMessage({
       method: "SUBSCRIBE",
       params: [`ticker.${market}`],
     });
@@ -40,13 +43,15 @@ export default function MarketStatusBar({ market }: { market: string }) {
     //   console.log('current ticker',ticker)
 
     return () => {
-      SignalingManger.getInstance().deRegisterCallback("ticker", market);
-      SignalingManger.getInstance().sendMessage({
+      SignalingManager.getInstance().deRegisterCallback("ticker", market);
+      SignalingManager.getInstance().sendMessage({
         method: "UNSUBSCRIBE",
         params: [`ticker.${market}`],
       });
     };
-  }, [market]);
+  }, []);
+
+  // console.log(ticker)
 
   return (
     <>

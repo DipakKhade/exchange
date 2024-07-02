@@ -6,6 +6,7 @@ const BASE_URL = "https://exchange-proxy.100xdevs.com/api/v1";
 export async function getTicker(market: string): Promise<Ticker> {
   const tickers = await getTickers();
   const ticker = tickers.find((t) => t.symbol === market);
+  // console.log(ticker)
   if (!ticker) {
     throw new Error(`No ticker found for ${market}`);
   }
@@ -38,3 +39,5 @@ export async function getKlines(
   const data: KLine[] = response.data;
   return data.sort((x, y) => (Number(x.end) < Number(y.end) ? -1 : 1));
 }
+
+

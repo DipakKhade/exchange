@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Ticker } from "../../app/utils/types";
 import axios from "axios";
 import { promises } from "dns";
-import { SignalingManger } from "@/app/utils/signalingManger";
+import { SignalingManager } from "@/app/utils/SignalingManager";
 
 export function useGetTicker() {
   const [tickers, setTickers] = useState<Ticker[]>([]);

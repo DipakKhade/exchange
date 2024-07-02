@@ -1,11 +1,11 @@
 "use client";
 import { createChart, ColorType } from "lightweight-charts";
 import { useRef, useEffect } from "react";
-import { SignalingManger } from "../utils/signalingManger";
+import { SignalingManager } from "../utils/SignalingManager";
 
 export default function Chart() {
   const container = useRef<HTMLDivElement>(null);
-  // const getTickerData=SignalingManger.getInstance()
+  // const getTickerData=SignalingManager.getInstance()
 
   useEffect(() => {
     if (container.current) {
