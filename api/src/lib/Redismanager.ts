@@ -21,12 +21,26 @@ export class RedisManger{
         return this.instance;
     }
 
-    public sendAndAwait(){
+    public sendAndAwait(message:any){
+        return new Promise<any>(resolve=>{
+            const id=this.generateRandomId();
+            this.client.subscribe(id,(message)=>{
+                this.client.unsubscribe(id);
+                resolve(JSON.parse(message))
 
+                this.publisher.lPush("message",JSON.stringify({
+                    clientId:id,
+                    message
+                }))
+    
+            })
+
+          
+        })
     }
 
     generateRandomId(){
-        
+        return (Math.random()*1000).toString()
     }
 
 

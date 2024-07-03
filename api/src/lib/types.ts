@@ -1,0 +1,5 @@
+exports.CREATE_ORDER = "CREATE_ORDER";
+exports.CANCEL_ORDER = "CANCEL_ORDER";
+exports.ON_RAMP = "ON_RAMP";
+exports.GET_DEPTH = "GET_DEPTH";
+
