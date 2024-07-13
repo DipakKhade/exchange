@@ -1,0 +1,20 @@
+version: '1.0'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis_conatiner
+    ports:
+      - "6379:6379"
+
+  timescaledb:
+     image: timescale/timescaledb:latest-pg12
+     container_name: timescaledb_container
+     ports:
+      - "5432:5432"
+     environment:
+      POSTGRES_DB: ""
+      POSTGRES_USER: ""
+      POSTGRES_PASSWORD: ""
+     volumes:
+      - timescale-data:/var/lib/postgresql/data
