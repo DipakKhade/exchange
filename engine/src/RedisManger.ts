@@ -27,8 +27,8 @@ type DbMessage = {
 
 
 
-export class RedisManger{
-    private static instance :RedisManger;
+export class RedisManager{
+    private static instance :RedisManager;
     private client: RedisClientType;
 
     private constructor(){
@@ -36,9 +36,9 @@ export class RedisManger{
         this.client.connect()
     }
 
-    private static getInstance(){
+    static getInstance(){
         if(! this.instance){
-            this.instance= new RedisManger()
+            this.instance= new RedisManager()
         }
         return this.instance
     }

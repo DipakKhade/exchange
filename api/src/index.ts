@@ -17,3 +17,6 @@ app.use('/api/v1/depth',depthRouter)
 app.use('/api/v1/kilnes',KlinesRouter)
 app.use('/api/v1/trades',tradesRouter)
 app.use('/api/v1/tickers',tickerRouter)
+
+
+app.listen(3000,()=>console.log('api server is listing on PORT 3000'))
