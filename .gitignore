@@ -1,4 +1,7 @@
 /frontend/node_modules
 /api/node_modules
+/api/dist
 /engine/node_modules
+/engine/dist
 /websocketServer/node_modules
+/websocketServer/dist
